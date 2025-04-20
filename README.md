@@ -1,8 +1,18 @@
 # random_shapes_animator
 
-A customizable Flutter widget that adds sparkling or animated shapes (like stars, circles, or snowflakes) to your widgets. Perfect for festive UIs, celebration screens, or decorative components.
+A fully customizable Flutter widget that adds sparkling or animated shapes (like stars, circles, or snowflakes) to your widgets. Perfect for festive UIs, celebration screens, or decorative components. Easily enhance your UI with dynamic, animated elements that are both lightweight and smooth in performance.
 
 ## Visual
+
+https://github.com/user-attachments/assets/fd683a42-db9f-43c5-8527-ec34014e1f5d
+
+## How to use
+```
+RandomShapesAnimator(
+  shape: Shape.star,
+  child: Text('Hello!'),
+)
+```
 
 ## ✨ Features
 
