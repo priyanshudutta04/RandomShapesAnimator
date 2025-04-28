@@ -43,7 +43,7 @@ class _RandomShapesAnimatorState extends State<RandomShapesAnimator>
   int get _starCount => widget.starCount ?? 15;
   double get _maxSpeed => widget.maxSpeed ?? 0.3;
   int get _trailLength => widget.trailLength ?? 10;
-  Size get _areaSize => widget.areaSize ?? const Size(200, 250);
+  Size get _areaSize => widget.areaSize ?? const Size(200, 200);
   Color get _sparkleColor => widget.sparkleColor ?? Colors.white;
   double get _minOpacity => widget.minOpacity ?? 0.5;
   double get _maxOpacity => widget.maxOpacity ?? 1.0;
@@ -159,13 +159,13 @@ class SparklingPainter extends CustomPainter {
         final start = trail[j];
         final end = trail[j + 1];
 
-        paint.color = sparkleColor.withOpacity(
-          opacity * (j + 1) / trail.length,
+        paint.color = sparkleColor.withValues(
+          alpha: opacity * (j + 1) / trail.length,
         );
         canvas.drawLine(start, end, paint);
       }
 
-      paint.color = sparkleColor.withOpacity(opacity);
+      paint.color = sparkleColor.withValues(alpha: opacity);
       drawShape(canvas, trail.last.dx, trail.last.dy, paint);
     }
   }
