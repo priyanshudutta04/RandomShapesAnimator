@@ -4,6 +4,8 @@ A fully customizable Flutter package that adds sparkling or animated shapes (lik
 
 [![pub package](https://img.shields.io/pub/v/random_shapes_animator.svg)](https://pub.dev/packages/random_shapes_animator)
 
+Made by - [Priyanshu Dutta](https://priyanshudutta.vercel.app/)
+
 ## Visual
 
 https://github.com/user-attachments/assets/fd683a42-db9f-43c5-8527-ec34014e1f5d
