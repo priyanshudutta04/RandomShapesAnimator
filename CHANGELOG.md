@@ -1,3 +1,7 @@
+## 1.1.2
+
+- Minor Change
+
 ## 1.1.1
 
 - Minor Fix
