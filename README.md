@@ -8,7 +8,7 @@ Made by - [Priyanshu Dutta](https://priyanshudutta.vercel.app/)
 
 ## Visual
 
-![Random Shapes Animator Demo](assets/random_motion.gif)
+![Random Shapes Animator Demo](example/assets/random_motion.gif)
 
 ## How to use
 
