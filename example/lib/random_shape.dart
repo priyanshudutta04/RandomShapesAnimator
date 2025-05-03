@@ -181,45 +181,33 @@ class SparklingPainter extends CustomPainter {
   }
 
   void drawShape(Canvas canvas, double x, double y, Paint paint) {
-    switch (shape) {
-      case Shape.star:
-        drawStar(canvas, x, y, paint);
-        break;
-      case Shape.circle:
-        canvas.drawCircle(Offset(x, y), 4, paint);
-        break;
-      case Shape.snowflake:
-        drawSnowflake(canvas, x, y, paint);
-        break;
-      case Shape.square:
-        canvas.drawRect(
-          Rect.fromCenter(center: Offset(x, y), width: 8, height: 8),
-          paint,
-        );
-        break;
-      case Shape.hollowSquare:
-        canvas.drawRect(
-          Rect.fromCenter(center: Offset(x, y), width: 8, height: 8),
-          paint..style = PaintingStyle.stroke,
-        );
-        break;
-      case Shape.triangle:
-        drawTriangle(canvas, x, y, paint);
-        break;
-      case Shape.hollowTriangle:
-        drawHollowTriangle(canvas, x, y, paint);
-        break;
-      case Shape.hexagon:
-        drawHexagon(canvas, x, y, paint);
-        break;
-      case Shape.hollowHexagon:
-        drawHollowHexagon(canvas, x, y, paint);
-        break;
-      case Shape.spiral:
-        drawSpiral(canvas, x, y, paint);
-        break;
-      default:
-        break;
+    if (shape == Shape.star) {
+      drawStar(canvas, x, y, paint);
+    } else if (shape == Shape.circle) {
+      canvas.drawCircle(Offset(x, y), 4, paint);
+    } else if (shape == Shape.snowflake) {
+      drawSnowflake(canvas, x, y, paint);
+    } else if (shape == Shape.square) {
+      canvas.drawRect(
+        Rect.fromCenter(center: Offset(x, y), width: 8, height: 8),
+        paint,
+      );
+    } else if (shape == Shape.hollowSquare) {
+      paint.style = PaintingStyle.stroke;
+      canvas.drawRect(
+        Rect.fromCenter(center: Offset(x, y), width: 8, height: 8),
+        paint,
+      );
+    } else if (shape == Shape.triangle) {
+      drawTriangle(canvas, x, y, paint);
+    } else if (shape == Shape.hollowTriangle) {
+      drawHollowTriangle(canvas, x, y, paint);
+    } else if (shape == Shape.hexagon) {
+      drawHexagon(canvas, x, y, paint);
+    } else if (shape == Shape.hollowHexagon) {
+      drawHollowHexagon(canvas, x, y, paint);
+    } else if (shape == Shape.spiral) {
+      drawSpiral(canvas, x, y, paint);
     }
   }
 

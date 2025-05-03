@@ -1,5 +1,9 @@
 ## 1.1.0
 
+- Minor Fix
+
+## 1.1.0
+
 - Added new shapes: `square`, `hollowSquare`, `triangle`, `hollowTriangle`, `hexagon`, `hollowHexagon`, `spiral`.
 
 ## 1.0.1
