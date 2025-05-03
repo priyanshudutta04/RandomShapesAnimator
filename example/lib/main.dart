@@ -28,7 +28,7 @@ class SparkleDemoPage extends StatelessWidget {
             children: [
               RandomShapesAnimator(
                 maxSpeed: 1.5,
-                shape: Shape.circle,
+                shape: Shape.spiral,
                 child: Container(
                   width: 200,
                   height: 200,
@@ -38,7 +38,7 @@ class SparkleDemoPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: const Text(
-                    "Circle",
+                    "Spiral",
                     style: TextStyle(fontSize: 24, color: Colors.white),
                   ),
                 ),

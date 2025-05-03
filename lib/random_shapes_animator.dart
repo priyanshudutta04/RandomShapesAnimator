@@ -2,7 +2,18 @@ export 'random_shapes_animator.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
 
-enum Shape { star, circle, snowflake }
+enum Shape {
+  star,
+  circle,
+  snowflake,
+  square,
+  hollowSquare,
+  triangle,
+  hollowTriangle,
+  hexagon,
+  hollowHexagon,
+  spiral,
+}
 
 class RandomShapesAnimator extends StatefulWidget {
   final Widget child;
@@ -181,6 +192,35 @@ class SparklingPainter extends CustomPainter {
       case Shape.snowflake:
         drawSnowflake(canvas, x, y, paint);
         break;
+      case Shape.square:
+        canvas.drawRect(
+          Rect.fromCenter(center: Offset(x, y), width: 8, height: 8),
+          paint,
+        );
+        break;
+      case Shape.hollowSquare:
+        canvas.drawRect(
+          Rect.fromCenter(center: Offset(x, y), width: 8, height: 8),
+          paint..style = PaintingStyle.stroke,
+        );
+        break;
+      case Shape.triangle:
+        drawTriangle(canvas, x, y, paint);
+        break;
+      case Shape.hollowTriangle:
+        drawHollowTriangle(canvas, x, y, paint);
+        break;
+      case Shape.hexagon:
+        drawHexagon(canvas, x, y, paint);
+        break;
+      case Shape.hollowHexagon:
+        drawHollowHexagon(canvas, x, y, paint);
+        break;
+      case Shape.spiral:
+        drawSpiral(canvas, x, y, paint);
+        break;
+      default:
+        break;
     }
   }
 
@@ -209,6 +249,84 @@ class SparklingPainter extends CustomPainter {
       double dy = 5 * sin(angle);
       canvas.drawLine(Offset(x, y), Offset(x + dx, y + dy), paint);
     }
+  }
+
+  void drawTriangle(Canvas canvas, double x, double y, Paint paint) {
+    final path = Path();
+    path.moveTo(x, y - 5);
+    path.lineTo(x - 5, y + 5);
+    path.lineTo(x + 5, y + 5);
+    path.close();
+
+    paint.style = PaintingStyle.fill;
+    canvas.drawPath(path, paint);
+  }
+
+  void drawHollowTriangle(Canvas canvas, double x, double y, Paint paint) {
+    final path = Path();
+    path.moveTo(x, y - 5);
+    path.lineTo(x - 5, y + 5);
+    path.lineTo(x + 5, y + 5);
+    path.close();
+
+    paint.style = PaintingStyle.stroke;
+    canvas.drawPath(path, paint);
+  }
+
+  void drawHexagon(Canvas canvas, double x, double y, Paint paint) {
+    final path = Path();
+    const radius = 5.0;
+    for (int i = 0; i < 6; i++) {
+      double angle = (pi / 3) * i;
+      double dx = x + radius * cos(angle);
+      double dy = y + radius * sin(angle);
+      if (i == 0) {
+        path.moveTo(dx, dy);
+      } else {
+        path.lineTo(dx, dy);
+      }
+    }
+    path.close();
+    paint.style = PaintingStyle.fill;
+    canvas.drawPath(path, paint);
+  }
+
+  void drawHollowHexagon(Canvas canvas, double x, double y, Paint paint) {
+    final path = Path();
+    const radius = 5.0;
+    for (int i = 0; i < 6; i++) {
+      double angle = (pi / 3) * i;
+      double dx = x + radius * cos(angle);
+      double dy = y + radius * sin(angle);
+      if (i == 0) {
+        path.moveTo(dx, dy);
+      } else {
+        path.lineTo(dx, dy);
+      }
+    }
+    path.close();
+    paint.style = PaintingStyle.stroke;
+    canvas.drawPath(path, paint);
+  }
+
+  void drawSpiral(Canvas canvas, double x, double y, Paint paint) {
+    final path = Path();
+    const double spiralTurns = 4;
+    const double maxRadius = 8.0;
+    const int segments = 100;
+
+    path.moveTo(x, y);
+
+    for (int i = 0; i < segments; i++) {
+      double t = i / segments;
+      double angle = spiralTurns * 2 * pi * t;
+      double radius = maxRadius * t;
+      double dx = x + radius * cos(angle);
+      double dy = y + radius * sin(angle);
+      path.lineTo(dx, dy);
+    }
+
+    canvas.drawPath(path, paint..style = PaintingStyle.stroke);
   }
 
   @override

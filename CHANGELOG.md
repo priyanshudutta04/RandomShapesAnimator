@@ -1,3 +1,7 @@
+## 1.1.0
+
+- Added new shapes: `square`, `hollowSquare`, `triangle`, `hollowTriangle`, `hexagon`, `hollowHexagon`, `spiral`.
+
 ## 1.0.1
 
 - Replaced deprecated `withOpacity` usage with `withValues`.
