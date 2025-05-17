@@ -1,4 +1,5 @@
 export 'random_shapes_animator.dart';
+// random_shapes_animator.dart
 import 'dart:math';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,8 @@ enum Shape {
   spiral,
 }
 
+enum MotionType { straight, sine }
+
 class RandomShapesAnimator extends StatefulWidget {
   final Widget child;
   final int? starCount;
@@ -25,6 +28,7 @@ class RandomShapesAnimator extends StatefulWidget {
   final double? minOpacity;
   final double? maxOpacity;
   final Shape? shape;
+  final MotionType? motionType;
 
   const RandomShapesAnimator({
     super.key,
@@ -37,6 +41,7 @@ class RandomShapesAnimator extends StatefulWidget {
     this.minOpacity,
     this.maxOpacity,
     this.shape,
+    this.motionType,
   });
 
   @override
@@ -50,6 +55,7 @@ class _RandomShapesAnimatorState extends State<RandomShapesAnimator>
   final List<double> _sparkleOpacities = [];
   final List<Offset> _velocity = [];
   late AnimationController _controller;
+  late List<double> _sinePhases;
 
   int get _starCount => widget.starCount ?? 15;
   double get _maxSpeed => widget.maxSpeed ?? 0.3;
@@ -86,6 +92,11 @@ class _RandomShapesAnimatorState extends State<RandomShapesAnimator>
       );
     }
 
+    _sinePhases = List.generate(
+      _starCount,
+      (_) => random.nextDouble() * 2 * pi,
+    );
+
     _controller = AnimationController(
       duration: const Duration(milliseconds: 16),
       vsync: this,
@@ -95,24 +106,63 @@ class _RandomShapesAnimatorState extends State<RandomShapesAnimator>
   }
 
   void _updateSparkles() {
-    for (int i = 0; i < _sparkleTrails.length; i++) {
-      List<Offset> trail = _sparkleTrails[i];
-      Offset newPosition = trail.last + _velocity[i];
+    if (widget.motionType == MotionType.sine) {
+      for (int i = 0; i < _sparkleTrails.length; i++) {
+        List<Offset> trail = _sparkleTrails[i];
+        Offset velocity = _velocity[i];
+        Offset lastPos = trail.last;
 
-      if (newPosition.dx < 0 || newPosition.dx > _areaSize.width) {
-        _velocity[i] = Offset(-_velocity[i].dx, _velocity[i].dy);
-      }
-      if (newPosition.dy < 0 || newPosition.dy > _areaSize.height) {
-        _velocity[i] = Offset(_velocity[i].dx, -_velocity[i].dy);
-      }
+        double dx = velocity.dx;
 
-      trail.add(newPosition);
-      if (trail.length > _trailLength) {
-        trail.removeAt(0);
-      }
+        double phaseStep = (random.nextDouble() * 0.1) + 0.0001;
+        _sinePhases[i] += phaseStep;
 
-      _sparkleTrails[i] = trail;
+        double amplitude = 1.0;
+
+        double dy = amplitude * sin(_sinePhases[i]);
+
+        Offset newPosition = Offset(lastPos.dx + dx, lastPos.dy + dy);
+
+        if (newPosition.dx < 0 || newPosition.dx > _areaSize.width) {
+          _velocity[i] = Offset(-_velocity[i].dx, _velocity[i].dy);
+        }
+
+        if (newPosition.dy < 0) {
+          newPosition = Offset(newPosition.dx, 0);
+          _sinePhases[i] += pi;
+        } else if (newPosition.dy > _areaSize.height) {
+          newPosition = Offset(newPosition.dx, _areaSize.height);
+          _sinePhases[i] += pi;
+        }
+
+        trail.add(newPosition);
+        if (trail.length > _trailLength) {
+          trail.removeAt(0);
+        }
+
+        _sparkleTrails[i] = trail;
+      }
+    } else {
+      for (int i = 0; i < _sparkleTrails.length; i++) {
+        List<Offset> trail = _sparkleTrails[i];
+        Offset newPosition = trail.last + _velocity[i];
+
+        if (newPosition.dx < 0 || newPosition.dx > _areaSize.width) {
+          _velocity[i] = Offset(-_velocity[i].dx, _velocity[i].dy);
+        }
+        if (newPosition.dy < 0 || newPosition.dy > _areaSize.height) {
+          _velocity[i] = Offset(_velocity[i].dx, -_velocity[i].dy);
+        }
+
+        trail.add(newPosition);
+        if (trail.length > _trailLength) {
+          trail.removeAt(0);
+        }
+
+        _sparkleTrails[i] = trail;
+      }
     }
+
     setState(() {});
   }
 
@@ -169,46 +219,56 @@ class SparklingPainter extends CustomPainter {
       for (int j = 0; j < trail.length - 1; j++) {
         final start = trail[j];
         final end = trail[j + 1];
-
-        paint.color = sparkleColor.withValues(
-          alpha: opacity * (j + 1) / trail.length,
+        paint.color = sparkleColor.withOpacity(
+          opacity * (j + 1) / trail.length,
         );
         canvas.drawLine(start, end, paint);
       }
 
-      paint.color = sparkleColor.withValues(alpha: opacity);
+      paint.color = sparkleColor.withOpacity(opacity);
       drawShape(canvas, trail.last.dx, trail.last.dy, paint);
     }
   }
 
   void drawShape(Canvas canvas, double x, double y, Paint paint) {
-    if (shape == Shape.star) {
-      drawStar(canvas, x, y, paint);
-    } else if (shape == Shape.circle) {
-      canvas.drawCircle(Offset(x, y), 4, paint);
-    } else if (shape == Shape.snowflake) {
-      drawSnowflake(canvas, x, y, paint);
-    } else if (shape == Shape.square) {
-      canvas.drawRect(
-        Rect.fromCenter(center: Offset(x, y), width: 8, height: 8),
-        paint,
-      );
-    } else if (shape == Shape.hollowSquare) {
-      paint.style = PaintingStyle.stroke;
-      canvas.drawRect(
-        Rect.fromCenter(center: Offset(x, y), width: 8, height: 8),
-        paint,
-      );
-    } else if (shape == Shape.triangle) {
-      drawTriangle(canvas, x, y, paint);
-    } else if (shape == Shape.hollowTriangle) {
-      drawHollowTriangle(canvas, x, y, paint);
-    } else if (shape == Shape.hexagon) {
-      drawHexagon(canvas, x, y, paint);
-    } else if (shape == Shape.hollowHexagon) {
-      drawHollowHexagon(canvas, x, y, paint);
-    } else if (shape == Shape.spiral) {
-      drawSpiral(canvas, x, y, paint);
+    switch (shape) {
+      case Shape.star:
+        drawStar(canvas, x, y, paint);
+        break;
+      case Shape.circle:
+        canvas.drawCircle(Offset(x, y), 4, paint);
+        break;
+      case Shape.snowflake:
+        drawSnowflake(canvas, x, y, paint);
+        break;
+      case Shape.square:
+        canvas.drawRect(
+          Rect.fromCenter(center: Offset(x, y), width: 8, height: 8),
+          paint,
+        );
+        break;
+      case Shape.hollowSquare:
+        paint.style = PaintingStyle.stroke;
+        canvas.drawRect(
+          Rect.fromCenter(center: Offset(x, y), width: 8, height: 8),
+          paint,
+        );
+        break;
+      case Shape.triangle:
+        drawTriangle(canvas, x, y, paint);
+        break;
+      case Shape.hollowTriangle:
+        drawHollowTriangle(canvas, x, y, paint);
+        break;
+      case Shape.hexagon:
+        drawHexagon(canvas, x, y, paint);
+        break;
+      case Shape.hollowHexagon:
+        drawHollowHexagon(canvas, x, y, paint);
+        break;
+      case Shape.spiral:
+        drawSpiral(canvas, x, y, paint);
+        break;
     }
   }
 
@@ -240,23 +300,23 @@ class SparklingPainter extends CustomPainter {
   }
 
   void drawTriangle(Canvas canvas, double x, double y, Paint paint) {
-    final path = Path();
-    path.moveTo(x, y - 5);
-    path.lineTo(x - 5, y + 5);
-    path.lineTo(x + 5, y + 5);
-    path.close();
-
+    final path =
+        Path()
+          ..moveTo(x, y - 5)
+          ..lineTo(x - 5, y + 5)
+          ..lineTo(x + 5, y + 5)
+          ..close();
     paint.style = PaintingStyle.fill;
     canvas.drawPath(path, paint);
   }
 
   void drawHollowTriangle(Canvas canvas, double x, double y, Paint paint) {
-    final path = Path();
-    path.moveTo(x, y - 5);
-    path.lineTo(x - 5, y + 5);
-    path.lineTo(x + 5, y + 5);
-    path.close();
-
+    final path =
+        Path()
+          ..moveTo(x, y - 5)
+          ..lineTo(x - 5, y + 5)
+          ..lineTo(x + 5, y + 5)
+          ..close();
     paint.style = PaintingStyle.stroke;
     canvas.drawPath(path, paint);
   }

@@ -31,17 +31,18 @@ RandomShapesAnimator(
 
 ## Properties
 
-| Property       | Type       | Description                                                                  |
-| -------------- | ---------- | ---------------------------------------------------------------------------- |
-| `child`        | Widget     | The widget to be wrapped with the sparkle animation.                         |
-| `shape`        | Shape enum | The shape of the sparkles (`star`, `circle`, `snowflake`).                   |
-| `starCount`    | int?       | Number of sparkles. **Default:** 15                                          |
-| `maxSpeed`     | double?    | Maximum speed of sparkle movement. **Default:** 0.3                          |
-| `trailLength`  | int?       | Length of the trail following each sparkle. **Default:** 10                  |
-| `areaSize`     | Size?      | The rectangular area within which sparkles move. **Default:** Size(200, 250) |
-| `sparkleColor` | Color?     | Color of the sparkles. **Default:** Colors.white                             |
-| `minOpacity`   | double?    | Minimum opacity for sparkles. **Default:** 0.5                               |
-| `maxOpacity`   | double?    | Maximum opacity for sparkles. **Default:** 1.0                               |
+| Property       | Type            | Description                                                                                                                                                               |
+| -------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `child`        | Widget          | The widget to be wrapped with the sparkle animation.                                                                                                                      |
+| `shape`        | Shape enum      | The shape of the sparkles. Available shapes: `star`, `circle`, `snowflake`, `square`, `hollowSquare`, `triangle`, `hollowTriangle`, `hexagon`, `hollowHexagon`, `spiral`. |
+| `motionType`   | MotionType enum | The motion style of the sparkles: `straight`or `sine` (smooth curvy). **Default:** `MotionType.straight`                                                                  |
+| `starCount`    | int?            | Number of sparkles. **Default:** 15                                                                                                                                       |
+| `maxSpeed`     | double?         | Maximum speed of sparkle movement. **Default:** 0.3                                                                                                                       |
+| `trailLength`  | int?            | Length of the trail following each sparkle. **Default:** 10                                                                                                               |
+| `areaSize`     | Size?           | The rectangular area within which sparkles move. **Default:** Size(200, 200)                                                                                              |
+| `sparkleColor` | Color?          | Color of the sparkles. **Default:** Colors.white                                                                                                                          |
+| `minOpacity`   | double?         | Minimum opacity for sparkles. **Default:** 0.5                                                                                                                            |
+| `maxOpacity`   | double?         | Maximum opacity for sparkles. **Default:** 1.0                                                                                                                            |
 
 ### Installation
 
@@ -49,5 +50,5 @@ Add the following to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  random_shapes_animator: ^1.0.0
+  random_shapes_animator: ^1.2.0
 ```

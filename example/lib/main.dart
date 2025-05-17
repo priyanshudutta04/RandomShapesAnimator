@@ -29,6 +29,7 @@ class SparkleDemoPage extends StatelessWidget {
               RandomShapesAnimator(
                 maxSpeed: 1.5,
                 shape: Shape.spiral,
+                motionType: MotionType.sine,
                 child: Container(
                   width: 200,
                   height: 200,
@@ -46,7 +47,7 @@ class SparkleDemoPage extends StatelessWidget {
               RandomShapesAnimator(
                 maxSpeed: 1.5,
                 shape: Shape.star,
-                areaSize: const Size(200, 250),
+                motionType: MotionType.sine,
                 child: Container(
                   width: 200,
                   height: 200,
@@ -64,7 +65,6 @@ class SparkleDemoPage extends StatelessWidget {
               RandomShapesAnimator(
                 maxSpeed: 1.5,
                 shape: Shape.snowflake,
-                areaSize: const Size(200, 250),
                 child: Container(
                   width: 200,
                   height: 200,
