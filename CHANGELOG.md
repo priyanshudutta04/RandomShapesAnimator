@@ -1,3 +1,7 @@
+## 1.2.1
+
+- Minor Change
+
 ## 1.2.0
 
 - Added `motionType` parameter to support different sparkle motions: `straight`or `sine`(random curvy motion).

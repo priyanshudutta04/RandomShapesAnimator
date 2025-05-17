@@ -8,7 +8,7 @@ Made by - [Priyanshu Dutta](https://priyanshudutta.vercel.app/)
 
 ## Visual
 
-![Random Shapes Animator Demo](example/assets/random_motion.gif)
+![Random Shapes Animator Demo](https://github.com/priyanshudutta04/RandomShapesAnimator/blob/main/example/assets/random_motion.gif?raw=true)
 
 ## How to use
 
@@ -21,7 +21,7 @@ RandomShapesAnimator(
 
 ## ✨ Features
 
-- 🌟 Add dynamic shapes like `star`, `circle`, or `snowflake`.
+- 🌟 Add dynamic shapes like `star`, `circle`, `snowflake`, `square`, `hollowSquare`, `triangle`, `hollowTriangle`, `hexagon`, `hollowHexagon`, or `spiral`.
 - 🧩 Easily wrap around any widget.
 - 🎯 Customizable speed, color, opacity, trail length, and more.
 - 🖼️ Adjustable animation area size.
@@ -50,5 +50,5 @@ Add the following to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  random_shapes_animator: ^1.2.0
+  random_shapes_animator: ^1.2.1
 ```

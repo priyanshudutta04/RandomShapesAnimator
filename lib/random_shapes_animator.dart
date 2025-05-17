@@ -1,5 +1,4 @@
 export 'random_shapes_animator.dart';
-// random_shapes_animator.dart
 import 'dart:math';
 import 'package:flutter/material.dart';
 
